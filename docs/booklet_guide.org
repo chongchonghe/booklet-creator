@@ -1,0 +1,26 @@
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="https://gongzhitaao.org/orgcss/org.css"/>
+# #+SETUPFILE: https://fniessen.github.io/org-html-themes/setup/theme-readtheorg.setup
+#+TITLE: Print a paper as a booklet
+#+AUTHOR: ChongChong He (Contact: chongchong@astro.umd.edu)
+#+OPTIONS: toc:nil 
+#+OPTIONS: num:nil
+
+* Want to print a paper like this? Here are steps to print a paper as a booklet
+
+- Rearrange the PDF :: In order to make your PDF read like a book, you
+     need to rearrange the order of the pages before you print it. I
+     wrote a python script to do this. Get the code from this github
+     repository: https://github.com/chongchonghe/booklet-creator.git
+     and following the guide there.
+
+- Print the PDF in Tabloid style :: Print the PDF in Tabloid style (11
+     by 17 in, or 279 by 432 mm). A printer setup on macOS looks like
+     this: 
+
+[[/Users/chongchonghe/local/booklet/printer_setup.png]]
+
+- Fold and staple it :: In order to put staples in the middle of the
+     booklet, you may need a stapler longer than usual. I have left a
+     long stapler of mine on the desk in this office for everyone to
+     use. Set the scale at 8.5 in.
+
