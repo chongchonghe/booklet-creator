@@ -3,6 +3,10 @@
 A python script to rearrange the order of a PDF document so that when
 printed in Tabloid style it reads like a book.
 
+## Author
+
+ChongChong He, on Nov 19, 2019. Contact: chongchong@astro.umd.edu
+
 ## Usage
 
 ```
@@ -21,7 +25,3 @@ It will not overwrite the original PDF document.
 ## Required packages
 
 `numpy` and `PyPDF2`
-
-## Author
-
-ChongChong He, on Nov 19, 2019. Contact: chongchong@astro.umd.edu
