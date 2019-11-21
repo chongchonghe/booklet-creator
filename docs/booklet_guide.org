@@ -17,7 +17,7 @@
      by 17 in, or 279 by 432 mm). A printer setup on macOS looks like
      this: 
 
-[[/Users/chongchonghe/local/booklet/printer_setup.png]]
+[[../printer_setup.png]]
 
 - Fold and staple it :: In order to put staples in the middle of the
      booklet, you may need a stapler longer than usual. I have left a
