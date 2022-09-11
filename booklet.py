@@ -29,11 +29,13 @@ The setting of your printer should be:
 \t(3). Scale to fit the page. An example setup for ARA&A:
 \t\t162% on 11*17 Borderless""")
     parser.add_argument(dest='pdffile', type=str, help="The PDF file to convert")
-    parser.add_argument('-s', '--start', type=int, help="The starting page number")
+    parser.add_argument('-s', '--start', default=1, type=int, help="The starting page number")
     parser.add_argument('-e', '--end', type=int, help="The ending page number")
+    parser.add_argument('-p', '--print-pages', action="store_true",
+                        help="Toggle printing the page numbers (and won't rearange the PDF)")
     return parser.parse_args()
 
-def main(fname, start=None, end=None):
+def main(fname, start=1, end=None, print_page=False):
     """ Input file name; output a rearanged pdf file in the same folder
     The documentation uses a file with 44 pages as an example"""
 
@@ -62,6 +64,10 @@ def main(fname, start=None, end=None):
         pages.append(num - i + 1)
         pages.append(num - (num - i + 1))
 
+    if print_page:
+        print("The pages will be reordered as", pages)
+        return
+
     print(start)
     for i in pages:
         if i > nop:
@@ -83,4 +89,4 @@ def main(fname, start=None, end=None):
 if __name__ == "__main__":
 
     args = parse_arguments()
-    main(args.pdffile, args.start, args.end)
+    main(args.pdffile, args.start, args.end, args.print_pages)
