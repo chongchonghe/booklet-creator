@@ -18,39 +18,63 @@ import os
 import math
 import numpy as np
 from PyPDF2 import PdfFileWriter as Writer, PdfFileReader as Reader
+import argparse
 
-def main(fname):
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="""
+A python program to rearrange the order of a PDF document so that if printed in Tabloid style, it reads like a book.\n
+The setting of your printer should be:
+\t(1). Paper size: Tabloid (11*17 in) for academic papers, books, etc;
+\t(2). Layout: 2 pages per sheet. Set layout direction to normal 'Z' layout. Set two-sided to Short-Edge binding.
+\t(3). Scale to fit the page. An example setup for ARA&A:
+\t\t162% on 11*17 Borderless""")
+    parser.add_argument(dest='pdffile', type=str, help="The PDF file to convert")
+    parser.add_argument('-s', '--start', type=int, help="The starting page number")
+    parser.add_argument('-e', '--end', type=int, help="The ending page number")
+    return parser.parse_args()
+
+def main(fname, start=None, end=None):
     """ Input file name; output a rearanged pdf file in the same folder
     The documentation uses a file with 44 pages as an example"""
 
     orig = Reader(open(fname, 'rb'))
     origpages = orig.pages
-    new = Writer()
-
     nop = len(origpages)
+    assert nop >= 4, "Number of pages must not be less than 4"
+    if end is not None:
+        assert start is not None
+        assert end <= nop
+        nop = end - start + 1
+    if start is None:
+        start = 0
+
+    new = Writer()
     nop_booklet = int(math.ceil(nop / 4.0)) # = 11
 
     base = np.arange(nop_booklet) + 1
     base = 2 * base
     base = base[::-1]
     pages = []
+    num = nop_booklet * 4 + 1 # = 45
     for i in base:
-        num = nop_booklet * 4 + 1 # = 45
         pages.append(i)
         pages.append(num - i)
         pages.append(num - i + 1)
         pages.append(num - (num - i + 1))
 
+    print(start)
     for i in pages:
         if i > nop:
             new.addBlankPage()
         else:
-            idx = int(i - 1)
+            idx = int(i + start - 1)
             new.addPage(origpages[idx])
 
     # save the modified pdf file
     fn = os.path.join(os.path.dirname(fname),
                       os.path.basename(fname) + ".booklet.pdf")
+    print(fn)
+    # return
     with open(fn, 'wb') as f:
         new.write(f)
     print("File saved as {}".format(fn))
@@ -58,13 +82,5 @@ def main(fname):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 2:
-        print("Usage:")
-        print("python booklet.py path/to/PDF/file \n")
-        print("Setups for your printer:")
-        print("\t1. Paper size: Tabloid (11*17 in) for academic papers, books, etc;")
-        print("\t2. Layout: 2 pages per sheet. Set layout direction to normal 'Z' layout. Set two-sided to Short-Edge binding.")
-        print("\t3. Scale to fit the page. An example setup for ARA&A:")
-        print("\t\t162% on 11*17 Borderless")
-    else:
-        main(sys.argv[1])
+    args = parse_arguments()
+    main(args.pdffile, args.start, args.end)
