@@ -37,7 +37,7 @@ The setting of your printer should be:
 
 def main(fname, start=1, end=None, print_page=False):
     """ Input file name; output a rearanged pdf file in the same folder
-    The documentation uses a file with 44 pages as an example"""
+    An imaginary documentation has 41 pages in the comments """
 
     orig = Reader(open(fname, 'rb'))
     origpages = orig.pages
@@ -47,15 +47,15 @@ def main(fname, start=1, end=None, print_page=False):
         assert start is not None
         assert end <= nop
         nop = end - start + 1
-    if start is None:
-        start = 0
 
     new = Writer()
-    nop_booklet = int(math.ceil(nop / 4.0)) # = 11
+    nop_booklet = nop // 4
+    if nop % 4 > 0:
+        nop_booklet += 1 # = 11
 
-    base = np.arange(nop_booklet) + 1
-    base = 2 * base
-    base = base[::-1]
+    base = np.arange(nop_booklet) + 1  # = 1, 2, ... 11
+    base = 2 * base                    # = 2, 4, ... 22
+    base = base[::-1]                  # = 22, 21, ... 2
     pages = []
     num = nop_booklet * 4 + 1 # = 45
     for i in base:
@@ -68,12 +68,11 @@ def main(fname, start=1, end=None, print_page=False):
         print("The pages will be reordered as", pages)
         return
 
-    print(start)
     for i in pages:
         if i > nop:
             new.addBlankPage()
         else:
-            idx = int(i + start - 1)
+            idx = int(i + start - 1 - 1)
             new.addPage(origpages[idx])
 
     # save the modified pdf file
