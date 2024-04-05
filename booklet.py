@@ -17,7 +17,7 @@ import sys
 import os
 import math
 import numpy as np
-from PyPDF2 import PdfFileWriter as Writer, PdfFileReader as Reader
+from PyPDF2 import PdfWriter as Writer, PdfReader as Reader
 import argparse
 
 def parse_arguments():
@@ -70,10 +70,10 @@ def main(fname, start=1, end=None, print_page=False):
 
     for i in pages:
         if i > nop:
-            new.addBlankPage()
+            new.add_blank_page()
         else:
             idx = int(i + start - 1 - 1)
-            new.addPage(origpages[idx])
+            new.add_page(origpages[idx])
 
     # save the modified pdf file
     fn = os.path.join(os.path.dirname(fname),
