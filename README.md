@@ -15,6 +15,12 @@ python booklet.py path/to/PDF/file
 which creates a new PDF file in the save folder with pages rearranged.
 It will not overwrite the original PDF document.
 
+## Rtl support
+If your document is going read from right to left:
+```
+python booklet.py path/to/PDF/file --rtl
+```
+
 ## Steps to print a paper as a booklet
 - Rearrange the PDF document you want to print using this python
   script (`booklet.py`).
